@@ -4,16 +4,17 @@ from sqlalchemy.orm import sessionmaker
 from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base, NetworkCoverage
 from src.network_coverage.infrastructure.csv.lamber93_to_gps import lamber93_to_gps
 
-def import_csv(csv_file: str, db_file: str = "coverage.db", batch_size: int = 1000):
-    engine = create_engine(f"sqlite:///{db_file}", echo=True, future=True)
 
-    # Enable foreign keys (optional, good practice)
+def create_session(db_file: str = ":memory:"):
+    engine = create_engine(f"sqlite:///{db_file}", future=True)
     with engine.connect() as conn:
         conn.execute("PRAGMA foreign_keys = ON")
-
     Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    return sessionmaker(bind=engine)()
+
+def import_csv(csv_file: str, db_file: str = "coverage.db", batch_size: int = 1000, session=None):
+    if session is None:
+        session = create_session(db_file)
 
     batch = []
 

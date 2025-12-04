@@ -9,6 +9,10 @@ class GetNetworkCoverageByAddress:
         self.repository = repository
 
     def execute(self, address: str) -> List[NetworkCoverage]:
-        long, lat = get_coordinates_from_address(address)
-        coverage_data = self.repository.get_coverage_data_by_coordinates(long, lat)
-        return coverage_data
+        list_of_coordinates = get_coordinates_from_address(address)
+        list_of_coverage_data = []
+        for coordinates in list_of_coordinates:
+            long, lat = coordinates
+            coverage_data = self.repository.get_coverage_data_by_coordinates(long, lat)
+            list_of_coverage_data.append(coverage_data)
+        return list_of_coverage_data

@@ -2,7 +2,7 @@ import csv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base, NetworkCoverage
-from src.network_coverage.infrastructure.csv.lamber93_to_gps import lamber93_to_gps
+from src.network_coverage.infrastructure.csv.lambert93_to_gps import lambert93_to_gps
 
 
 def create_session(db_file: str = ":memory:"):
@@ -21,7 +21,7 @@ def import_csv(csv_file: str, db_file: str = "coverage.db", batch_size: int = 10
     with open(csv_file, newline='', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
-            long, lat = lamber93_to_gps(int(row["x"]), int(row["y"]))
+            long, lat = lambert93_to_gps(int(row["x"]), int(row["y"]))
 
             batch.append(NetworkCoverage(
                 operateur=int(row["Operateur"]),

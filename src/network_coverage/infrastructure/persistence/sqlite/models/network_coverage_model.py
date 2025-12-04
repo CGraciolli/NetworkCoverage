@@ -9,7 +9,7 @@ Base = declarative_base()
 class NetworkCoverage(Base):
     __tablename__ = "network_coverage"
     __table_args__ = (
-        UniqueConstraint("code", "x", "y", name="_network_coverage_unique_constraint"),
+        UniqueConstraint("code", "long", "lat", name="_network_coverage_unique_constraint"),
     )
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))

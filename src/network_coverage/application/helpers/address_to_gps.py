@@ -1,7 +1,7 @@
 from typing import Tuple
 
 
-def address_to_gps(address: str) -> Tuple[float, float]:
+def get_coordinates_from_address(address: str) -> Tuple[float, float]:
     """
     Convert an address to GPS coordinates (longitude, latitude).
     This is a placeholder function. In a real implementation, this function would

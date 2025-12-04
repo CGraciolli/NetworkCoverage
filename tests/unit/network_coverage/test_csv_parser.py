@@ -16,7 +16,7 @@ def session():
 def test_import_csv_inserts_rows(session):
 
     # Mock lambert93_to_gps so we don't depend on pyproj
-    with patch("importer.lambert93_to_gps", return_value=(1.234, 5.678)):
+    with patch("src.network_coverage.infrastructure.csv.lambert93_to_gps.lambert93_to_gps", return_value=(1.234, 5.678)):
 
         # Mock CSV file contents
         with patch("builtins.open", mock_open(read_data=CSV_DATA)):
@@ -28,12 +28,12 @@ def test_import_csv_inserts_rows(session):
 
             assert len(rows) == 2
 
-            assert rows[0].operateur == 1
+            assert rows[0].code == 1
             assert rows[0].long == 1.234
             assert rows[0].lat == 5.678
             assert rows[0].g2 is True
             assert rows[0].g3 is False
             assert rows[0].g4 is True
 
-            assert rows[1].operateur == 2
+            assert rows[1].code == 2
             assert rows[1].g2 is False

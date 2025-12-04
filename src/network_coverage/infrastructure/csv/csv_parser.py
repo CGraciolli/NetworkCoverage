@@ -1,5 +1,5 @@
 import csv
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base, NetworkCoverage
 from src.network_coverage.infrastructure.csv.lambert93_to_gps import lambert93_to_gps
@@ -8,7 +8,7 @@ from src.network_coverage.infrastructure.csv.lambert93_to_gps import lambert93_t
 def create_session(db_file: str = ":memory:"):
     engine = create_engine(f"sqlite:///{db_file}", future=True)
     with engine.connect() as conn:
-        conn.execute("PRAGMA foreign_keys = ON")
+        conn.execute(text("PRAGMA foreign_keys = ON"))
     Base.metadata.create_all(engine)
     return sessionmaker(bind=engine)()
 

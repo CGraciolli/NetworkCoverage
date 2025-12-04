@@ -19,7 +19,7 @@ class Provider:
             }
         self.name = provider_map.get(self.code, str(self.code))
     
-    def __to_dict__(self) -> Dict[str, Dict[str, bool]]:
+    def to_dict(self) -> Dict[str, Dict[str, bool]]:
         return {self.name: {
             "2G": self.twoG,
             "3G": self.threeG,
@@ -32,9 +32,9 @@ class NetworkCoverage:
     lat: int
     provider_set: List[Provider]
 
-    def __to_dict__(self) -> Dict[str, Dict[str, bool]]:
+    def to_dict(self) -> Dict[str, Dict[str, bool]]:
         coverage_dict = {}
         for provider in self.provider_set:
-            coverage_dict.update(provider.__to_dict())
+            coverage_dict.update(provider.to_dict())
         return coverage_dict
             

@@ -1,14 +1,15 @@
 import uuid
-from sqlalchemy import Integer, String, Boolean, UniqueConstraint, Float, create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker, Mapped, mapped_column
+from sqlalchemy import Integer, String, Boolean, UniqueConstraint, Float
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from src.network_coverage.domain.network_coverage import NetworkCoverage as NetworkCoverageEntity
 
 
 Base = declarative_base()
 
-class Coverage(Base):
-    __tablename__ = "coverage"
+class NetworkCoverage(Base):
+    __tablename__ = "network_coverage"
     __table_args__ = (
-        UniqueConstraint("code", "x", "y", name="_coverage_unique_constraint"),
+        UniqueConstraint("code", "x", "y", name="_network_coverage_unique_constraint"),
     )
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -18,3 +19,13 @@ class Coverage(Base):
     g2: Mapped[bool] = mapped_column(Boolean, nullable=False)
     g3: Mapped[bool] = mapped_column(Boolean, nullable=False)
     g4: Mapped[bool] = mapped_column(Boolean, nullable=False)
+
+    def to_entity(self) -> NetworkCoverageEntity:
+        return NetworkCoverageEntity(
+            code=self.code,
+            long=self.long,
+            lat=self.lat,
+            g2=self.g2,
+            g3=self.g3,
+            g4=self.g4,
+        )

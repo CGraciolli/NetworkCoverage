@@ -1,7 +1,7 @@
 import csv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Base, Coverage
+from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base, NetworkCoverage
 from src.network_coverage.infrastructure.csv.lamber93_to_gps import lamber93_to_gps
 
 def import_csv(csv_file: str, db_file: str = "coverage.db", batch_size: int = 1000):
@@ -22,7 +22,7 @@ def import_csv(csv_file: str, db_file: str = "coverage.db", batch_size: int = 10
         for row in reader:
             long, lat = lamber93_to_gps(int(row["x"]), int(row["y"]))
 
-            batch.append(Coverage(
+            batch.append(NetworkCoverage(
                 operateur=int(row["Operateur"]),
                 long=long,
                 lat=lat,
@@ -36,14 +36,11 @@ def import_csv(csv_file: str, db_file: str = "coverage.db", batch_size: int = 10
                 session.commit()
                 batch.clear()
 
-    # Insert remaining rows
     if batch:
         session.add_all(batch)
         session.commit()
 
     session.close()
-    print("CSV imported successfully!")
 
-# ---------- Optional: Run script ----------
 if __name__ == "__main__":
     import_csv("data.csv")

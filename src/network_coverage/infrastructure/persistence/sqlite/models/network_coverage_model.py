@@ -13,17 +13,8 @@ class Coverage(Base):
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     code: Mapped[int] = mapped_column(Integer, nullable=False)
-    x: Mapped[int] = mapped_column(Float, nullable=False)
-    y: Mapped[int] = mapped_column(Float, nullable=False)
+    long: Mapped[float] = mapped_column(Float, nullable=False)
+    lat: Mapped[float] = mapped_column(Float, nullable=False)
     g2: Mapped[bool] = mapped_column(Boolean, nullable=False)
     g3: Mapped[bool] = mapped_column(Boolean, nullable=False)
     g4: Mapped[bool] = mapped_column(Boolean, nullable=False)
-
-engine = create_engine("sqlite:///coverage.db", echo=True, future=True)
-
-with engine.connect() as conn:
-    conn.execute("PRAGMA foreign_keys = ON")
-
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()

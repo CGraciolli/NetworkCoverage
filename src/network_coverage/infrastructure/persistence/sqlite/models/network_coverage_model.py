@@ -2,6 +2,7 @@ import uuid
 from sqlalchemy import Integer, String, Boolean, UniqueConstraint, Float
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 from src.network_coverage.domain.network_coverage import NetworkCoverage as NetworkCoverageEntity
+from src.network_coverage.domain.network_coverage import Provider as ProviderEntity
 
 
 Base = declarative_base()
@@ -22,10 +23,12 @@ class NetworkCoverage(Base):
 
     def to_entity(self) -> NetworkCoverageEntity:
         return NetworkCoverageEntity(
-            code=self.code,
             long=self.long,
             lat=self.lat,
-            g2=self.g2,
-            g3=self.g3,
-            g4=self.g4,
+            provider_set = [ProviderEntity(
+                code=self.code,
+                twoG=self.g2,
+                threeG=self.g3,
+                fourG=self.g4
+            )]
         )

@@ -1,0 +1,112 @@
+import pytest
+import uuid
+from sqlalchemy import create_engine, text
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
+
+from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base, NetworkCoverage
+from src.network_coverage.domain.network_coverage import (
+    NetworkCoverage as NetworkCoverageEntity,
+    Provider as ProviderEntity,
+)
+
+
+@pytest.fixture
+def session():
+    """Create an in-memory database and provide a session."""
+    engine = create_engine("sqlite:///:memory:", echo=False)
+    Base.metadata.create_all(engine)
+
+    with Session(engine) as session:
+        yield session
+
+
+def test_table_exists(session):
+    result = session.execute(text("SELECT name FROM sqlite_master WHERE type='table'"))
+    tables = {row[0] for row in result}
+
+    assert "network_coverage" in tables
+
+
+def test_insert_and_read(session):
+    """Insert one NetworkCoverage row and verify fields."""
+
+    nc = NetworkCoverage(
+        code=42,
+        long=12.5,
+        lat=55.8,
+        g2=True,
+        g3=False,
+        g4=True,
+    )
+
+    session.add(nc)
+    session.commit()
+
+    stored = session.query(NetworkCoverage).first()
+
+    assert stored.code == 42
+    assert stored.long == 12.5
+    assert stored.lat == 55.8
+    assert stored.g2 is True
+    assert stored.g3 is False
+    assert stored.g4 is True
+
+    # UUID default should generate a valid UUID4 string
+    assert uuid.UUID(stored.id)  # raises if not valid UUID
+
+
+def test_unique_constraint(session):
+    """(code, long, lat) must be unique."""
+
+    row1 = NetworkCoverage(
+        code=1, long=10.0, lat=20.0,
+        g2=True, g3=False, g4=True,
+    )
+    session.add(row1)
+    session.commit()
+
+    # Same identifying fields
+    duplicate = NetworkCoverage(
+        code=1, long=10.0, lat=20.0,
+        g2=False, g3=True, g4=False,
+    )
+    session.add(duplicate)
+
+    with pytest.raises(IntegrityError):
+        session.commit()
+
+
+def test_to_entity_mapping(session):
+    """Ensure to_entity() creates correct NetworkCoverageEntity + ProviderEntity."""
+
+    nc = NetworkCoverage(
+        code=7,
+        long=99.1,
+        lat=88.2,
+        g2=False,
+        g3=True,
+        g4=False,
+    )
+
+    session.add(nc)
+    session.commit()
+
+    entity = nc.to_entity()
+
+    assert isinstance(entity, NetworkCoverageEntity)
+    assert entity.long == 99.1
+    assert entity.lat == 88.2
+
+    # provider_set should be a list with one ProviderEntity
+    assert isinstance(entity.provider_set, list)
+    assert len(entity.provider_set) == 1
+
+    provider = entity.provider_set[0]
+    assert isinstance(provider, ProviderEntity)
+
+    # Verify mapping
+    assert provider.code == 7
+    assert provider.twoG is False
+    assert provider.threeG is True
+    assert provider.fourG is False

@@ -24,7 +24,7 @@ def import_csv(csv_file: str, db_file: str = "coverage.db", batch_size: int = 10
             long, lat = lambert93_to_gps(int(row["x"]), int(row["y"]))
 
             batch.append(NetworkCoverage(
-                operateur=int(row["Operateur"]),
+                code=int(row["Operateur"]),
                 long=long,
                 lat=lat,
                 g2=bool(int(row["2G"])),

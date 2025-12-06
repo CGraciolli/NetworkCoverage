@@ -14,8 +14,8 @@ def test_execute_returns_expected_coverage_list():
 
     fake_address = "10 Rue de Rivoli, Paris"
 
-    fake_coverage_1 = NetworkCoverage(long=1, lat=2, provider_set=[])
-    fake_coverage_2 = NetworkCoverage(long=3, lat=4, provider_set=[])
+    fake_coverage_1 = NetworkCoverage(long=1, lat=2, provider_list=[])
+    fake_coverage_2 = NetworkCoverage(long=3, lat=4, provider_list=[])
 
     # Mock coordinates returned by geocoder
     with patch(

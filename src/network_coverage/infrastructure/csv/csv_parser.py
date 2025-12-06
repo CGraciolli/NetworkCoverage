@@ -44,4 +44,4 @@ def import_csv(csv_file: str, db_file: str = "coverage.db", batch_size: int = 10
     session.close()
 
 if __name__ == "__main__":
-    import_csv("data.csv")
+    import_csv("docs/providers.csv")

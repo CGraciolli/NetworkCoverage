@@ -25,16 +25,28 @@ class Provider:
             "3G": self.threeG,
             "4G": self.fourG
         }}
+    
+    def add_to_dict(self, dict_of_providers: dict):
+        if self.name not in dict_of_providers.keys():
+            dict_of_providers[self.name] = {
+                "2G": self.twoG,
+                "3G": self.threeG,
+                "4G": self.fourG
+            }
+        else:
+            dict_of_providers[self.name]["2G"] = dict_of_providers[self.name]["2G"] or self.twoG
+            dict_of_providers[self.name]["3G"] = dict_of_providers[self.name]["3G"] or self.threeG
+            dict_of_providers[self.name]["4G"] = dict_of_providers[self.name]["4G"] or self.fourG
 
 @dataclass
 class NetworkCoverage:
     long: int
     lat: int
-    provider_set: List[Provider]
+    provider_list: List[Provider]
 
     def to_dict(self) -> Dict[str, Dict[str, bool]]:
         coverage_dict = {}
-        for provider in self.provider_set:
+        for provider in self.provider_list:
             coverage_dict.update(provider.to_dict())
         return coverage_dict
             

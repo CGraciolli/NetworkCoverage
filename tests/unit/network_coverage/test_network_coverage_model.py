@@ -98,11 +98,10 @@ def test_to_entity_mapping(session):
     assert entity.long == 99.1
     assert entity.lat == 88.2
 
-    # provider_set should be a list with one ProviderEntity
-    assert isinstance(entity.provider_set, list)
-    assert len(entity.provider_set) == 1
+    assert isinstance(entity.provider_list, list)
+    assert len(entity.provider_list) == 1
 
-    provider = entity.provider_set[0]
+    provider = entity.provider_list[0]
     assert isinstance(provider, ProviderEntity)
 
     # Verify mapping

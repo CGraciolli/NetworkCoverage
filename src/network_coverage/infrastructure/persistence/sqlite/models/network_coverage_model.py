@@ -25,7 +25,7 @@ class NetworkCoverage(Base):
         return NetworkCoverageEntity(
             long=self.long,
             lat=self.lat,
-            provider_set = [ProviderEntity(
+            provider_list = [ProviderEntity(
                 code=self.code,
                 twoG=self.g2,
                 threeG=self.g3,

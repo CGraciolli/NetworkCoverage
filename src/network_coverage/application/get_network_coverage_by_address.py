@@ -14,7 +14,8 @@ class GetNetworkCoverageByAddress:
         for coordinates in list_of_coordinates:
             long, lat = coordinates
             coverage_data = self.repository.get_coverage_data_by_coordinates(long, lat)
-            list_of_providers += coverage_data.provider_list
+            for coverage_datum in coverage_data:
+                list_of_providers += coverage_datum.provider_list
 
         providers_dict = {}
         for provider in list_of_providers:

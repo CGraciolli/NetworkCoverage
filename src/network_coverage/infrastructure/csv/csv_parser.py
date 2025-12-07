@@ -1,26 +1,29 @@
 import csv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
-from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base, NetworkCoverage
+from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import NetworkCoverage
 from src.network_coverage.infrastructure.csv.lambert93_to_gps import lambert93_to_gps
+from src.network_coverage.infrastructure.persistence.sqlite.database import SessionLocal
 
 
-def create_session(db_file: str = ":memory:"):
-    engine = create_engine(f"sqlite:///{db_file}", future=True)
-    with engine.connect() as conn:
-        conn.execute(text("PRAGMA foreign_keys = ON"))
-    Base.metadata.create_all(engine)
-    return sessionmaker(bind=engine)()
-
-def import_csv(csv_file: str, db_file: str = "coverage.db", batch_size: int = 1000, session=None):
+def import_csv(csv_file: str, batch_size: int = 1000, session=None):
+    own_session = False
     if session is None:
-        session = create_session(db_file)
+        session = SessionLocal()
+        own_session = True
 
     batch = []
 
     with open(csv_file, newline='', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter=';')
         for row in reader:
+            try:
+                x = int(row["x"])
+                y = int(row["y"])
+            except ValueError:
+                # Skip invalid coordinates
+                continue
+            
             long, lat = lambert93_to_gps(int(row["x"]), int(row["y"]))
 
             batch.append(NetworkCoverage(
@@ -41,7 +44,6 @@ def import_csv(csv_file: str, db_file: str = "coverage.db", batch_size: int = 10
         session.add_all(batch)
         session.commit()
 
-    session.close()
+    if own_session:
+        session.close()
 
-if __name__ == "__main__":
-    import_csv("docs/providers.csv")

@@ -1,0 +1,5 @@
+fastapi==0.123.7
+sqlalchemy==2.0.44
+pyproj==3.7.2
+uvicorn[standard]==0.29.0
+requests==2.32.5

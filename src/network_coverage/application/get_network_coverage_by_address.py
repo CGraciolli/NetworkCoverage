@@ -1,4 +1,4 @@
-from src.network_coverage.domain.network_coverage import NetworkCoverage, Provider
+from src.network_coverage.domain.network_coverage import Provider
 from src.network_coverage.domain.network_coverage_repository import NetworkCoverageRepository
 from src.network_coverage.application.helpers.address_to_gps import get_coordinates_from_address
 from typing import List

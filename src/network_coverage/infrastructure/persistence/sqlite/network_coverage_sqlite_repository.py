@@ -13,8 +13,8 @@ class NetworkCoverageSQLiteRepository(NetworkCoverageRepository):
             self,
             long: float,
             lat: float,
-            epsilon_lat: float = 0.009, #about 1km
-            epsilon_long: float = 0.014 #about 1km
+            epsilon_lat: float = 0.009,
+            epsilon_long: float = 0.014
             ) -> List[NetworkCoverageEntity]:
         results = (
             self._session

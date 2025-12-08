@@ -18,7 +18,7 @@ def test_provider_name_mapping_unknown_code():
 
 def test_provider_to_dict():
     provider = Provider(code=20815, twoG=True, threeG=True, fourG=False)
-    
+
     result = provider.to_dict()
 
     assert result == {
@@ -77,6 +77,7 @@ def test_networkcoverage_empty_provider_list():
     result = nc.to_dict()
 
     assert result == {}  # No providers → empty dict
+
 
 def test_add_to_dict_adds_new_provider():
     provider = Provider(code=20801, twoG=True, threeG=False, fourG=True)  # Orange

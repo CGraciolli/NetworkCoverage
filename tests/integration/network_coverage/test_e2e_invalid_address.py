@@ -23,6 +23,7 @@ def test_db_session():
         session.close()
         connection.close()
 
+
 # --- Fixture: TestClient with overridden DB dependency ---
 @pytest.fixture
 def client(test_db_session):
@@ -35,6 +36,7 @@ def client(test_db_session):
     app.dependency_overrides[get_session] = override_get_session
     client = TestClient(app)
     return client
+
 
 # --- E2E test ---
 def test_get_network_coverage_invalid_address(client):

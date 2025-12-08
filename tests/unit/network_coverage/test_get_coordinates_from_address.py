@@ -20,6 +20,7 @@ def test_get_coordinates_success():
 
     assert coords == [(2.3522, 48.8566), (2.295, 48.8738)]
 
+
 # --- Test API returns empty features ---
 def test_get_coordinates_no_features():
     mock_get = MagicMock()
@@ -30,6 +31,7 @@ def test_get_coordinates_no_features():
         with pytest.raises(ValueError, match="No coordinates found"):
             get_coordinates_from_address("nonexistent address")
 
+
 # --- Test API returns non-200 status ---
 def test_get_coordinates_api_error():
     mock_get = MagicMock()
@@ -39,6 +41,7 @@ def test_get_coordinates_api_error():
     with patch("requests.get", mock_get):
         with pytest.raises(RuntimeError, match="Geoportail API error 500"):
             get_coordinates_from_address("any address")
+
 
 # --- Test API returns malformed JSON ---
 def test_get_coordinates_malformed_json():

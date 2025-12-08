@@ -9,6 +9,7 @@ from src.main import app
 from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base, NetworkCoverage
 from src.network_coverage.infrastructure.persistence.sqlite.database import get_session
 
+
 # --- Fixture: in-memory database ---
 @pytest.fixture
 def test_db_session():
@@ -23,6 +24,7 @@ def test_db_session():
         session.close()
         connection.close()
 
+
 # --- Fixture: TestClient with overridden DB dependency ---
 @pytest.fixture
 def client(test_db_session):
@@ -35,6 +37,7 @@ def client(test_db_session):
     app.dependency_overrides[get_session] = override_get_session
     client = TestClient(app)
     return client
+
 
 # --- E2E test ---
 def test_get_network_coverage_no_provider_e2e(client, test_db_session):

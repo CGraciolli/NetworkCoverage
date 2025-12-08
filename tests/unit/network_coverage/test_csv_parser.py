@@ -22,6 +22,7 @@ def session():
     yield session
     session.close()
 
+
 def test_import_csv_inserts_rows(session):
     # Patch open to use the CSV_DATA string
     with patch("builtins.open", mock_open(read_data=CSV_DATA)):
@@ -47,4 +48,3 @@ def test_import_csv_inserts_rows(session):
         assert rows[1].g2 is False
         assert rows[1].g3 is True
         assert rows[1].g4 is True
-

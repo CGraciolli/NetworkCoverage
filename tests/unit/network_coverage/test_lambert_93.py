@@ -1,6 +1,7 @@
 import pytest
 from src.network_coverage.infrastructure.csv.lambert93_to_gps import lambert93_to_gps
 
+
 def test_lambert93_to_gps():
 
     # Example Lambert 93 coordinates

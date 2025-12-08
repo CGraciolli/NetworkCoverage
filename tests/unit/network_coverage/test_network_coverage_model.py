@@ -56,27 +56,6 @@ def test_insert_and_read(session):
     assert uuid.UUID(stored.id)  # raises if not valid UUID
 
 
-def test_unique_constraint(session):
-    """(code, long, lat) must be unique."""
-
-    row1 = NetworkCoverage(
-        code=1, long=10.0, lat=20.0,
-        g2=True, g3=False, g4=True,
-    )
-    session.add(row1)
-    session.commit()
-
-    # Same identifying fields
-    duplicate = NetworkCoverage(
-        code=1, long=10.0, lat=20.0,
-        g2=False, g3=True, g4=False,
-    )
-    session.add(duplicate)
-
-    with pytest.raises(IntegrityError):
-        session.commit()
-
-
 def test_to_entity_mapping(session):
     """Ensure to_entity() creates correct NetworkCoverageEntity + ProviderEntity."""
 

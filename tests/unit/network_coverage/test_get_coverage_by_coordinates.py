@@ -17,8 +17,8 @@ def test_get_coverage_data_by_coordinates_sqlite():
     # Insert test rows using THE ORM MODEL
     inside = NetworkCoverage(
         code=1,
-        long=1.05,
-        lat=2.07,
+        long=1.005,   # inside 1 km longitude window (epsilon_long = 0.014)
+        lat=2.007,    # inside 1 km latitude window  (epsilon_lat  = 0.009)
         g2=True,
         g3=False,
         g4=True,
@@ -26,8 +26,8 @@ def test_get_coverage_data_by_coordinates_sqlite():
 
     outside = NetworkCoverage(
         code=2,
-        long=5.0,
-        lat=5.0,
+        long=1.20,    # far outside 1 km
+        lat=2.30,
         g2=False,
         g3=False,
         g4=False,
@@ -45,8 +45,8 @@ def test_get_coverage_data_by_coordinates_sqlite():
     assert len(results) == 1
 
     entity = results[0]
-    assert entity.long == 1.05
-    assert entity.lat == 2.07
+    assert entity.long == 1.005
+    assert entity.lat == 2.007
 
     # Provider list should have 1 ProviderEntity (from to_entity())
     assert len(entity.provider_list) == 1

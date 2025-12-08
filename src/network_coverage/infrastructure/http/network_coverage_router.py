@@ -6,8 +6,8 @@ router = APIRouter(prefix="/network-coverage", tags=["network-coverage"])
 
 @router.get("/")
 def get_network_coverage(
-    q: str = Query(..., description="The address to get network coverage for"),
+    address: str = Query(..., description="The address to get network coverage for"),
     use_case: GetNetworkCoverageByAddress = Depends(get_network_coverage_use_case)
     ):
-    return use_case.execute(q)
+    return use_case.execute(address)
     

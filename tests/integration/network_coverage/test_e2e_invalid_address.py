@@ -37,35 +37,13 @@ def client(test_db_session):
     return client
 
 # --- E2E test ---
-def test_get_network_coverage_no_provider_e2e(client, test_db_session):
-    # Arrange: insert fake coverage data
-    orange = NetworkCoverage(
-        code=20801,
-        long=2.378,
-        lat=48.857,
-        g2=True,
-        g3=True,
-        g4=False,
-    )
-    sfr = NetworkCoverage(
-        code=20810,
-        long=2.379,
-        lat=48.858,
-        g2=True,
-        g3=True,
-        g4=True,
-    )
-    test_db_session.add_all([orange, sfr])
-    test_db_session.commit()
+def test_get_network_coverage_invalid_address(client):
+    # Patch geocoding to simulate a ValueError for invalid address
+    with patch("src.network_coverage.application.get_network_coverage_by_address.get_coordinates_from_address",
+               side_effect=ValueError("No coordinates found for address")):
 
-    # Patch geocoder to return coordinates that match test DB
-    with patch(
-        "src.network_coverage.application.get_network_coverage_by_address.get_coordinates_from_address",
-        return_value=[(-48, 148.8575)]
-    ):
-        # Act: call API
-        response = client.get("/papernest/network-coverage/?address=42+rue+papernest+75011+Paris")
+        response = client.get("/papernest/network-coverage/?address=INVALID_ADDRESS")
 
-    # Assert
-    assert response.status_code == 200
-    assert response.json() == {}
+    # Assert 400 response
+    assert response.status_code == 400
+    assert "Failed to geocode address 'INVALID_ADDRESS'" in response.text

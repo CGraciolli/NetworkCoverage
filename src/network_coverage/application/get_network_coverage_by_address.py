@@ -9,7 +9,10 @@ class GetNetworkCoverageByAddress:
         self.repository = repository
 
     def execute(self, address: str) -> dict:
-        list_of_coordinates = get_coordinates_from_address(address)
+        try:
+            list_of_coordinates = get_coordinates_from_address(address)
+        except Exception as e:
+            raise RuntimeError(f"Failed to geocode address '{address}'") from e
         list_of_providers: List[Provider] = []
         for coordinates in list_of_coordinates:
             long, lat = coordinates

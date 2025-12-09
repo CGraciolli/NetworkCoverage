@@ -18,7 +18,7 @@ def test_get_coordinates_success():
     with patch("requests.get", mock_get):
         coords = get_coordinates_from_address("10 rue de Rivoli, Paris")
 
-    assert coords == [(2.3522, 48.8566), (2.295, 48.8738)]
+    assert coords == (2.3522, 48.8566), (2.295, 48.8738)
 
 
 # --- Test API returns empty features ---

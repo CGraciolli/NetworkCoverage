@@ -5,5 +5,5 @@ from src.network_coverage.domain.network_coverage import NetworkCoverage as Netw
 
 class NetworkCoverageRepository(ABC):
     @abstractmethod
-    def get_coverage_data_by_coordinates(self, long: float, lat: float) -> List[NetworkCoverageEntity]:
+    def get_coverage_data_by_coordinates(self, long: float, lat: float, accuracy: int = 1) -> List[NetworkCoverageEntity]:
         raise NotImplementedError()

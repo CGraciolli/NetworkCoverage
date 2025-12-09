@@ -3,7 +3,7 @@ import requests
 from urllib.parse import quote
 
 
-def get_coordinates_from_address(address: str) -> List[Tuple[float, float]]:
+def get_coordinates_from_address(address: str) -> Tuple[float, float]:
     """
     Convert an address string into GPS coordinates (lon, lat)
     using the Geoportail geocoding API:
@@ -21,9 +21,7 @@ def get_coordinates_from_address(address: str) -> List[Tuple[float, float]]:
     if "features" not in data or len(data["features"]) == 0:
         raise ValueError(f"No coordinates found for address: '{address}'")
     
-    list_of_coordinates = []
-    for feature in data["features"]:
-        long, lat = feature["geometry"]["coordinates"]
-        list_of_coordinates.append((long, lat))
+    best_match= data["features"][0]
+    long, lat = best_match["geometry"]["coordinates"]
 
-    return list_of_coordinates
+    return long, lat

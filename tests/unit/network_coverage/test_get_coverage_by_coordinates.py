@@ -56,3 +56,54 @@ def test_get_coverage_data_by_coordinates_sqlite():
     assert provider.twoG is True
     assert provider.threeG is False
     assert provider.fourG is True
+
+def test_get_coverage_data_by_coordinates_sqlite_with_accuracy():
+    # Setup in-memory SQLite
+    engine = sa.create_engine("sqlite:///:memory:")
+    Session = sessionmaker(bind=engine)
+
+    # Create table
+    NetworkCoverage.metadata.create_all(engine)
+    session = Session()
+
+    # Insert test rows
+    inside_default = NetworkCoverage(
+        code=1,
+        long=1.005,
+        lat=2.007,
+        g2=True,
+        g3=False,
+        g4=True,
+    )
+
+    inside_high_accuracy = NetworkCoverage(
+        code=2,
+        long=1.05,   # farther away, only included if accuracy > 1
+        lat=2.06,
+        g2=True,
+        g3=True,
+        g4=True,
+    )
+
+    outside = NetworkCoverage(
+        code=3,
+        long=1.20,
+        lat=2.30,
+        g2=False,
+        g3=False,
+        g4=False,
+    )
+
+    session.add_all([inside_default, inside_high_accuracy, outside])
+    session.commit()
+
+    repo = NetworkCoverageSQLiteRepository(session)
+
+    # --- Test higher accuracy (5) ---
+    results_high_accuracy = repo.get_coverage_data_by_coordinates(long=1.0, lat=2.0, accuracy=10)
+    # Should now include both inside_default and inside_high_accuracy
+    assert len(results_high_accuracy) == 2
+
+    codes = sorted([e.long for e in results_high_accuracy])
+    assert 1.005 in codes
+    assert 1.05 in codes

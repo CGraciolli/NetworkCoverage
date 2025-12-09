@@ -64,7 +64,7 @@ def test_get_network_coverage_no_provider_e2e(client, test_db_session):
     # Patch geocoder to return coordinates that match test DB
     with patch(
         "src.network_coverage.application.get_network_coverage_by_address.get_coordinates_from_address",
-        return_value=[(-48, 148.8575)]
+        return_value=(-48, 148.8575)
     ):
         # Act: call API
         response = client.get("/papernest/network-coverage/?address=42+rue+papernest+75011+Paris")

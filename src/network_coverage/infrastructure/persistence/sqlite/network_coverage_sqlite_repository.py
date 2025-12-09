@@ -13,9 +13,12 @@ class NetworkCoverageSQLiteRepository(NetworkCoverageRepository):
             self,
             long: float,
             lat: float,
-            epsilon_lat: float = 0.009,
-            epsilon_long: float = 0.014
+            accuracy: int = 1
             ) -> List[NetworkCoverageEntity]:
+        
+        epsilon_lat: float = 0.009 * accuracy
+        epsilon_long: float = 0.014 * accuracy
+
         results = (
             self._session
             .query(NetworkCoverage)

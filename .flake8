@@ -6,5 +6,5 @@ exclude =
     venv,
     .venv,
     docs
-ignore = E203,W503
+ignore = E203,W503,E125,E123
 

@@ -9,6 +9,7 @@ from src.main import app
 from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base, NetworkCoverage
 from src.network_coverage.infrastructure.persistence.sqlite.database import get_session
 
+
 # --- Fixture: in-memory database ---
 @pytest.fixture
 def test_db_session():

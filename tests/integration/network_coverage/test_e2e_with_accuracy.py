@@ -7,10 +7,10 @@ from sqlalchemy.orm import sessionmaker
 
 from src.main import app
 from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base, NetworkCoverage
-from src.network_coverage.domain.network_coverage import NetworkCoverage as NetworkCoverageEntity
 from src.network_coverage.infrastructure.persistence.sqlite.database import get_session
 from src.network_coverage.application.get_network_coverage_by_address import GetNetworkCoverageByAddress
 from src.network_coverage.infrastructure.http.dependencies import get_network_coverage_use_case
+
 
 # --- Fixture: in-memory database ---
 @pytest.fixture

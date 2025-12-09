@@ -1,4 +1,4 @@
-from typing import Tuple, List
+from typing import Tuple
 import requests
 from urllib.parse import quote
 
@@ -20,8 +20,8 @@ def get_coordinates_from_address(address: str) -> Tuple[float, float]:
 
     if "features" not in data or len(data["features"]) == 0:
         raise ValueError(f"No coordinates found for address: '{address}'")
-    
-    best_match= data["features"][0]
+
+    best_match = data["features"][0]
     long, lat = best_match["geometry"]["coordinates"]
 
     return long, lat

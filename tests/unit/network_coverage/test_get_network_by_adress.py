@@ -1,7 +1,8 @@
-import pytest
+import pytest  # noqa: F401
 from unittest.mock import patch, MagicMock
 from src.network_coverage.application.get_network_coverage_by_address import GetNetworkCoverageByAddress
 from src.network_coverage.domain.network_coverage import NetworkCoverage, Provider
+
 
 def test_execute_returns_expected_coverage_list():
     # Mock repository

@@ -5,6 +5,7 @@ from typing import Optional
 
 router = APIRouter(prefix="/network-coverage", tags=["network-coverage"])
 
+
 @router.get("/")
 def get_network_coverage(
     address: str = Query(..., description="The address to get network coverage for"),
@@ -18,4 +19,3 @@ def get_network_coverage(
         return use_case.execute(address, accuracy)
     except RuntimeError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    

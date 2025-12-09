@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 from src.network_coverage.application.helpers.address_to_gps import get_coordinates_from_address
 
+
 # --- Test successful API response ---
 def test_get_coordinates_success():
     fake_response = {

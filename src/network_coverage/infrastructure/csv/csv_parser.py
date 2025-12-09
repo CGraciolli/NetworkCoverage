@@ -1,6 +1,4 @@
 import csv
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
 from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import NetworkCoverage
 from src.network_coverage.infrastructure.csv.lambert93_to_gps import lambert93_to_gps
 from src.network_coverage.infrastructure.persistence.sqlite.database import SessionLocal
@@ -23,8 +21,8 @@ def import_csv(csv_file: str, batch_size: int = 1000, session=None):
             except ValueError:
                 # Skip invalid coordinates
                 continue
-            
-            long, lat = lambert93_to_gps(int(row["x"]), int(row["y"]))
+
+            long, lat = lambert93_to_gps(x, y)
 
             batch.append(NetworkCoverage(
                 code=int(row["Operateur"]),
@@ -46,4 +44,3 @@ def import_csv(csv_file: str, batch_size: int = 1000, session=None):
 
     if own_session:
         session.close()
-

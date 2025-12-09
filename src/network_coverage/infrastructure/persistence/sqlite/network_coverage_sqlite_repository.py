@@ -8,14 +8,14 @@ from src.network_coverage.infrastructure.persistence.sqlite.models.network_cover
 class NetworkCoverageSQLiteRepository(NetworkCoverageRepository):
     def __init__(self, session: Session) -> None:
         self._session = session
-    
+
     def get_coverage_data_by_coordinates(
             self,
             long: float,
             lat: float,
             accuracy: int = 1
             ) -> List[NetworkCoverageEntity]:
-        
+
         epsilon_lat: float = 0.009 * accuracy
         epsilon_long: float = 0.014 * accuracy
 

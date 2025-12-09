@@ -1,4 +1,4 @@
-import pytest
+import pytest  # noqa: F401
 from src.network_coverage.domain.network_coverage import Provider, NetworkCoverage
 
 

@@ -1,4 +1,4 @@
-import pytest
+import pytest  # noqa: F401
 from src.network_coverage.infrastructure.csv.lambert93_to_gps import lambert93_to_gps
 
 

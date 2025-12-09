@@ -1,6 +1,8 @@
 import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker
-from src.network_coverage.infrastructure.persistence.sqlite.network_coverage_sqlite_repository import NetworkCoverageSQLiteRepository
+from src.network_coverage.infrastructure.persistence.sqlite.network_coverage_sqlite_repository import (
+    NetworkCoverageSQLiteRepository
+    )
 from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import NetworkCoverage
 
 
@@ -56,6 +58,7 @@ def test_get_coverage_data_by_coordinates_sqlite():
     assert provider.twoG is True
     assert provider.threeG is False
     assert provider.fourG is True
+
 
 def test_get_coverage_data_by_coordinates_sqlite_with_accuracy():
     # Setup in-memory SQLite

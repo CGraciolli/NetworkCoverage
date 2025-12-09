@@ -12,6 +12,7 @@ CSV_DATA = """Operateur;x;y;2G;3G;4G
 2;103000;6848000;0;1;1
 """
 
+
 @pytest.fixture
 def session():
     # Create an in-memory SQLite engine

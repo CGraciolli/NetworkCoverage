@@ -1,11 +1,12 @@
 import uuid
-from sqlalchemy import Integer, String, Boolean, UniqueConstraint, Float
+from sqlalchemy import Integer, String, Boolean, Float
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 from src.network_coverage.domain.network_coverage import NetworkCoverage as NetworkCoverageEntity
 from src.network_coverage.domain.network_coverage import Provider as ProviderEntity
 
 
 Base = declarative_base()
+
 
 class NetworkCoverage(Base):
     __tablename__ = "network_coverage"
@@ -22,7 +23,7 @@ class NetworkCoverage(Base):
         return NetworkCoverageEntity(
             long=self.long,
             lat=self.lat,
-            provider_list = [ProviderEntity(
+            provider_list=[ProviderEntity(
                 code=self.code,
                 twoG=self.g2,
                 threeG=self.g3,

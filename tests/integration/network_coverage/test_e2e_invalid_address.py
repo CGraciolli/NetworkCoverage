@@ -6,8 +6,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from src.main import app
-from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base, NetworkCoverage
+from src.network_coverage.infrastructure.persistence.sqlite.models.network_coverage_model import Base
 from src.network_coverage.infrastructure.persistence.sqlite.database import get_session
+
 
 # --- Fixture: in-memory database ---
 @pytest.fixture

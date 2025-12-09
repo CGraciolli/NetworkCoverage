@@ -92,6 +92,14 @@ GET /papernest/network-coverage/?address=123+Main+St&accuracy=5
 }
 ```
 
+## How to Test
+
+To run the tests, use the following command:
+```bash
+PYTHONPATH=. pytest
+```
+This ensures that the `PYTHONPATH` is set correctly for the imports to work during testing.
+
 ## Additional Notes
 
 - The `data/providers.csv` file contains provider data used for coverage calculations.

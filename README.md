@@ -6,7 +6,7 @@ This project provides an API to retrieve 2G/3G/4G network coverage by provider u
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/CGraciolli/NetworkCoverage
    cd papernest
    ```
 

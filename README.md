@@ -38,16 +38,22 @@ This project provides an API to retrieve 2G/3G/4G network coverage by provider u
 
 ### Running Locally
 
-1. Run the application directly:
+1. Initialize the database by running the `main.py` script:
    ```bash
    python src/main.py
    ```
+   This step ensures that the database is set up and populated with data from the `providers.csv` file.
 
-2. The API will be available at `http://localhost:8000`.
+2. Start the application using `uvicorn`:
+   ```bash
+   uvicorn src.main:app --host 0.0.0.0 --port 8000
+   ```
+
+3. The API will be available at `http://localhost:8000`.
 
 ## How It Works
 
-1. **Input**: The user provides a textual address.
+1. **Input**: The user provides a textual address. An accuracy level can also specified.
 2. **Address Conversion**: The address is converted to GPS coordinates using the `address_to_gps` helper.
 3. **Data Retrieval**: The GPS coordinates are used to query the database for network coverage data.
 4. **Response**: The API returns the network coverage details by provider.
